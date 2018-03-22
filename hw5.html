@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HW5</title>
+</head>
+<body>
+    <h1>
+        This web site will find the volume for a Cylinder, Sphere or Cone.
+    </h1>
+    <form>
+        Select the units(English or SI)<br/>
+        English: <input type="radio" name="unit" value = "English" onclick="getUnit(this)"/>
+        SI: <input type="radio" name="unit" value = "SI" onclick="getUnit(this)"/><br />
+        Select the shape
+        <select id="Shape_select">
+            <option value="Cylinder">Cylinder</option>
+            <option value="Sphere">Sphere</option>
+            <option value="Cone">Cone</option>
+        </select><br/>
+        
+        Enter the radius
+        <input type="text" id = "r"/><br/>
+        
+        For the Cylinder and Cone, enter the Height
+            
+        <input type="text" id = "h"/><br/>
+        <input type="reset" value="Reset the form" /><br />
+    </form>
+
+    <h2>
+        Result
+    </h2>
+    <form>
+        You selected to use <span id="unit_result">English</span> Units.<br/>
+        You selected to find values for a <span id="shape_result">Cylinder</span> shape.
+        <table border="1">
+            <tr>
+                <td>Shape</td>
+                <td>Radius</td>
+                <td>Height</td>
+                <td>Volume</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><span id="unit_name1">(ft)</span></td>
+                <td><span id="unit_name2">(ft)</span></td>
+                <td><span id="unit_name3">(ft^3)</span></td>
+            </tr>
+            <tr>
+                <td><span id="shape_table">Shape</span> </td>
+                <td><span id="radius_table">/</span></td>
+                <td><span id="height_table">/</span></td>
+                <td><span id="volume_table">/</span></td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <button onclick="calculateClick()">Click to Calculate the results</button>
+</body>
+</html>
+<script>
+    'use strict';
+    function calculateClick(){
+        var shape = getShape();
+        var radius = getRadius();
+        var height = getHeight();
+        var volume = getVolume(shape,radius,height);
+        alert(volume)
+        changeTable(shape,radius,height,volume);
+
+    }
+    function getVolume(shape,radius,height){
+        var volume;
+        var pai = 3.1415;
+
+        if(shape ==="Cylinder"){
+            volume = height * (pai * radius * radius);
+            }
+        else if(shape==="Sphere"){
+            volume = 4/3 *(pai * radius * radius);
+            }
+        else{
+            volume = height * (pai * radius * radius) / 3;
+            }
+        return volume;
+    }
+    function changeTable(shape,radius,height,volume){
+        document.getElementById("radius_table").innerHTML = radius;//change the radius in table
+        document.getElementById("height_table").innerHTML = height;//change the height in table
+        document.getElementById("volume_table").innerHTML = volume; //change the volume in table
+
+    }
+    function getShape() {
+        var shape = document.getElementById("Shape_select").value;
+        document.getElementById("shape_result").innerHTML=shape;    //change the shape
+        document.getElementById("shape_table").innerHTML = shape;//change the shape in table
+
+        return shape;
+    }
+    function getUnit(obj){
+        var unit = obj.value;
+        document.getElementById("unit_result").innerHTML= unit;    //change the unit
+        if(unit === "English") {
+            document.getElementById("unit_name1").innerHTML ="(ft)";    //change the unit in table
+            document.getElementById("unit_name2").innerHTML ="(ft)";
+            document.getElementById("unit_name3").innerHTML ="(ft^3)";
+        }else{
+            document.getElementById("unit_name1").innerHTML ="(m)";
+            document.getElementById("unit_name2").innerHTML ="(m)";
+            document.getElementById("unit_name3").innerHTML ="(m^3)";
+        }
+    }
+    function getRadius(){
+        var radius = parseInt(document.getElementById("r").value);
+        return radius;
+    }
+    function getHeight(){
+        var height = parseInt(document.getElementById("h").value);
+        return height;
+    }
+</script>
